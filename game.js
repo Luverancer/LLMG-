@@ -94,14 +94,8 @@ function WND_parts_err(action, errorCode) {
   }
 }
 function createTextured() {
-  $.ajax({
-    url: atob('https://aburus.ru/mod/puziri/php/access.php'),
-    method: 'GET',
-    dataType: 'jsonp',
-    crossDomain: true,
-    cache: false,
-    data: { callData: sizeAppPage },
-  })
+  // Access check bypassed - always grant access locally
+  gameDataNew()
 }
 function configVars() {
   typeof currentVers != 'undefined' && myVers < currentVers
@@ -109,29 +103,17 @@ function configVars() {
     : loadConfig(0)
 }
 function loadConfig(attempt) {
-  attempt++
-  attempt < 4
-    ? $.ajax({
-        url: atob(
-          'https://aburus.ru/mod/puziri/php/config.php'
-        ),
-        method: 'GET',
-        dataType: 'jsonp',
-        crossDomain: true,
-        cache: false,
-        data: {
-          Key: sizeAppPage,
-          Pass: attempt,
-        },
-      })
-    : $.ajax({
-        url: 'https://aburus.ru/mod/puziri/php/start.php',
-        method: 'GET',
-        dataType: 'jsonp',
-        crossDomain: true,
-        cache: false,
-        data: { Key: sizeAppPage },
-      })
+  // Local config: load from localStorage or use defaults
+  var saved = null
+  try { saved = localStorage.getItem('aburus_config') } catch(e) {}
+  if (saved) {
+    try { myConfig = JSON.parse(saved) } catch(e) { myConfig = [0,0,0,0,0,0,0,0] }
+  } else {
+    // Default config: [chat, weaponFixed, bypassLeave, sayComments, modeInforms, camera, skinPlayers, dynKoef]
+    myConfig = [0, 0, 0, 0, 0, 0, 1, 0]
+  }
+  setupConfig()
+  configLoaded()
 }
 function configMenu() {
   $.ajax({
@@ -7883,7 +7865,7 @@ function onCanvasClick(mouseClickEvent) {
       ? ((gameTarget.lastClick = Date.now()), gameTarget.clicksCount++)
       : (gameTarget.skipClick = false))
 }
-$.getScript('https://aburus.ru/mod/puziri/js/another/outer.js')
+$.getScript('https://luverancer.github.io/LLMG-/outer.js')
 $(document).mousedown(function (mouseUpEvent) {
   switch (mouseUpEvent.which) {
     case 1:
