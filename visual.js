@@ -1146,19 +1146,11 @@ function changeDyn(dynAction) {
     tempConfig[7] < 20 && (tempConfig[7]++, $('#dynConfig').html(tempConfig[7]))
 }
 function setConfig() {
-  $.ajax({
-    url: 'https://aburus.ru/mod/puziri/php/setconfig.php',
-    method: 'GET',
-    dataType: 'jsonp',
-    crossDomain: true,
-    cache: false,
-    data: {
-      Id: my_id,
-      Val: tempConfig[0],
-      Key: my_enc_id,
-      Data: JSON.stringify(tempConfig),
-    },
-  })
+  // Save config locally in localStorage instead of server
+  try { localStorage.setItem('aburus_config', JSON.stringify(tempConfig)) } catch(e) {}
+  myConfig = tempConfig.slice()
+  setupConfig()
+  configLoaded()
 }
 function sendReport() {
   $('#reportText').val() != ''
