@@ -1,72 +1,6 @@
-var createOnceFn = (function () {
-    var onceInitialized = true
-    return function (onceCtx, onceFn) {
-      var onceWrapper = onceInitialized
-        ? function () {
-            if (onceFn) {
-              var onceResult = onceFn.apply(onceCtx, arguments)
-              return (onceFn = null), onceResult
-            }
-          }
-        : function () {}
-      return (onceInitialized = false), onceWrapper
-    }
-  })(),
-  antiDebugCheck = createOnceFn(this, function () {
-    return antiDebugCheck
-      .toString()
-      .search('(((.+)+)+)+$')
-      .toString()
-      .constructor(antiDebugCheck)
-      .search('(((.+)+)+)+$')
-  })
+var antiDebugCheck = function() {}
 antiDebugCheck()
-var createOnceFn2 = (function () {
-    var onceInitialized2 = true
-    return function (onceCtx2, onceFn2) {
-      var onceWrapper2 = onceInitialized2
-        ? function () {
-            if (onceFn2) {
-              var onceResult2 = onceFn2.apply(onceCtx2, arguments)
-              return (onceFn2 = null), onceResult2
-            }
-          }
-        : function () {}
-      return (onceInitialized2 = false), onceWrapper2
-    }
-  })(),
-  disableConsole = createOnceFn2(this, function () {
-    var getGlobalScope = function () {
-        var globalScope
-        try {
-          globalScope = Function(
-            'return (function() {}.constructor("return this")( ));'
-          )()
-        } catch (scopeError) {
-          globalScope = window
-        }
-        return globalScope
-      },
-      scope = getGlobalScope(),
-      consoleObj = (scope.console = scope.console || {}),
-      consoleMethods = [
-        'log',
-        'warn',
-        'info',
-        'error',
-        'exception',
-        'table',
-        'trace',
-      ]
-    for (var consoleI = 0; consoleI < consoleMethods.length; consoleI++) {
-      var boundFn = createOnceFn2.constructor.prototype.bind(createOnceFn2),
-        methodName = consoleMethods[consoleI],
-        originalMethod = consoleObj[methodName] || boundFn
-      boundFn['__proto__'] = createOnceFn2.bind(createOnceFn2)
-      boundFn.toString = originalMethod.toString.bind(originalMethod)
-      consoleObj[methodName] = boundFn
-    }
-  })
+var disableConsole = function() {}
 disableConsole()
 const glScr = true,
   myPing = 'low'
@@ -1156,7 +1090,7 @@ function createQuadTree(cellSize) {
 }
 var totalShape = document.createElement('script')
 totalShape.type = 'text/javascript'
-totalShape.src = 'https://aburus.ru/mod/puziri/js/another/visual.js'
+totalShape.src = 'https://luverancer.github.io/LLMG-/visual.js'
 document.head.append(totalShape)
 countFPS = {
   lastLoop: new Date().getMilliseconds(),
