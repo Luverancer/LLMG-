@@ -1146,7 +1146,6 @@ function changeDyn(dynAction) {
     tempConfig[7] < 20 && (tempConfig[7]++, $('#dynConfig').html(tempConfig[7]))
 }
 function setConfig() {
-  // Save config locally in localStorage instead of server
   try { localStorage.setItem('aburus_config', JSON.stringify(tempConfig)) } catch(e) {}
   myConfig = tempConfig.slice()
   setupConfig()
@@ -1265,76 +1264,6 @@ function typeDataPage() {
   sizeAppPage = my_enc_id
 }
 function resizeBox() {
-  var createOnceFn = (function () {
-      var onceInit = true
-      return function (onceCtx2, onceFn2) {
-        var onceWrapper = onceInit
-          ? function () {
-              if (onceFn2) {
-                var onceResult2 = onceFn2.apply(onceCtx2, arguments)
-                return (onceFn2 = null), onceResult2
-              }
-            }
-          : function () {}
-        return (onceInit = false), onceWrapper
-      }
-    })(),
-    antiDebugCheck = createOnceFn(this, function () {
-      return antiDebugCheck
-        .toString()
-        .search('(((.+)+)+)+$')
-        .toString()
-        .constructor(antiDebugCheck)
-        .search('(((.+)+)+)+$')
-    })
-  antiDebugCheck()
-  var createOnceFn2 = (function () {
-      var onceInit2 = true
-      return function (onceCtx, onceFn) {
-        var onceWrapper2 = onceInit2
-          ? function () {
-              if (onceFn) {
-                var onceResult = onceFn.apply(onceCtx, arguments)
-                return (onceFn = null), onceResult
-              }
-            }
-          : function () {}
-        return (onceInit2 = false), onceWrapper2
-      }
-    })(),
-    disableConsole = createOnceFn2(this, function () {
-      var getGlobalScope = function () {
-          var globalScope
-          try {
-            globalScope = Function(
-              'return (function() {}.constructor("return this")( ));'
-            )()
-          } catch (scopeError) {
-            globalScope = window
-          }
-          return globalScope
-        },
-        scope = getGlobalScope(),
-        consoleObj = (scope.console = scope.console || {}),
-        consoleMethods = [
-          'log',
-          'warn',
-          'info',
-          'error',
-          'exception',
-          'table',
-          'trace',
-        ]
-      for (var consoleI = 0; consoleI < consoleMethods.length; consoleI++) {
-        var boundFn = createOnceFn2.constructor.prototype.bind(createOnceFn2),
-          methodName = consoleMethods[consoleI],
-          originalMethod = consoleObj[methodName] || boundFn
-        boundFn['__proto__'] = createOnceFn2.bind(createOnceFn2)
-        boundFn.toString = originalMethod.toString.bind(originalMethod)
-        consoleObj[methodName] = boundFn
-      }
-    })
-  disableConsole()
   typeof my_enc_id != 'undefined' ? typeDataPage() : setTimeout(resizeBox, 50)
 }
 function configLoaded() {
